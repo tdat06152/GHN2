@@ -2,26 +2,33 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Mindmap Quy trình</title>
+  <title>Mind map Quy trình hàng hóa</title>
   <style>
     body {
       font-family: sans-serif;
       margin: 40px;
       background: #f5f5f5;
     }
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
     .mindmap {
       display: flex;
-      flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
+      flex-wrap: nowrap;
       gap: 30px;
+      position: relative;
     }
     .step {
       width: 260px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 20px;
+      padding: 16px;
       position: relative;
+      cursor: pointer;
       transition: transform 0.3s ease;
     }
     .step:hover {
@@ -29,24 +36,17 @@
     }
     .step h3 {
       margin-top: 0;
+      font-size: 16px;
       color: #333;
+      text-align: center;
     }
     .video-preview {
       position: relative;
       width: 100%;
-      padding-top: 56.25%; /* 16:9 */
-      margin-bottom: 10px;
+      padding-top: 56.25%;
       border-radius: 8px;
       overflow: hidden;
-      cursor: pointer;
-    }
-    .video-preview img {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: opacity 0.3s ease;
+      background: #000;
     }
     .video-preview iframe {
       position: absolute;
@@ -54,36 +54,50 @@
       width: 100%;
       height: 100%;
       border: none;
-      opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
     }
     .link-section {
       margin-top: 10px;
     }
     .link-section label {
-      display: block;
+      font-size: 13px;
       font-weight: bold;
+      display: block;
       margin-bottom: 5px;
-      font-size: 14px;
     }
     .link-section input {
       width: 100%;
       padding: 6px 8px;
-      font-size: 14px;
+      font-size: 13px;
       border-radius: 6px;
       border: 1px solid #ccc;
-    }
-    input[readonly] {
       background-color: #f1f1f1;
       color: #555;
+    }
+    input[readonly] {
       cursor: not-allowed;
     }
-    /* Modal */
+
+    .arrow {
+      width: 30px;
+      height: 2px;
+      background: #333;
+      position: relative;
+    }
+    .arrow::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 10px solid #333;
+    }
+
     .modal {
       display: none;
       position: fixed;
-      z-index: 999;
+      z-index: 9999;
       top: 0; left: 0;
       width: 100%;
       height: 100%;
@@ -100,13 +114,13 @@
 </head>
 <body>
 
-<h2>Mindmap Quy trình công việc</h2>
+<h2>Mind map Quy trình hàng hóa</h2>
+
 <div class="mindmap">
-  <!-- STEP TEMPLATE -->
-  <div class="step" data-video-id="1a2b3c4d5e6f7g8h">
-    <h3>Bước 1: Tiếp nhận</h3>
+  <!-- Bước 1: Gán đơn giao -->
+  <div class="step" data-video-id="1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ">
+    <h3>Bước 1: Gán đơn giao</h3>
     <div class="video-preview">
-      <img src="https://via.placeholder.com/400x225.png?text=Video+Preview" alt="Preview">
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
@@ -115,10 +129,12 @@
     </div>
   </div>
 
-  <div class="step" data-video-id="2b3c4d5e6f7g8h9i">
-    <h3>Bước 2: Phân công</h3>
+  <div class="arrow"></div>
+
+  <!-- Bước 2: Đồng kiểm hàng hóa -->
+  <div class="step" data-video-id="">
+    <h3>Bước 2: Đồng kiểm hàng hóa</h3>
     <div class="video-preview">
-      <img src="https://via.placeholder.com/400x225.png?text=Video+Preview" alt="Preview">
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
@@ -127,10 +143,12 @@
     </div>
   </div>
 
-  <div class="step" data-video-id="3c4d5e6f7g8h9i0j">
-    <h3>Bước 3: Thực thi</h3>
+  <div class="arrow"></div>
+
+  <!-- Bước 3: Bắn kiểm đơn hàng về Bưu cục -->
+  <div class="step" data-video-id="14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-">
+    <h3>Bước 3: Bắn kiểm đơn hàng về Bưu cục</h3>
     <div class="video-preview">
-      <img src="https://via.placeholder.com/400x225.png?text=Video+Preview" alt="Preview">
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
@@ -139,10 +157,12 @@
     </div>
   </div>
 
-  <div class="step" data-video-id="4d5e6f7g8h9i0j1k">
-    <h3>Bước 4: Kiểm tra</h3>
+  <div class="arrow"></div>
+
+  <!-- Bước 4: Thu tiền và tạo phiếu thu -->
+  <div class="step" data-video-id="1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_">
+    <h3>Bước 4: Thu tiền và tạo phiếu thu</h3>
     <div class="video-preview">
-      <img src="https://via.placeholder.com/400x225.png?text=Video+Preview" alt="Preview">
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
@@ -158,41 +178,35 @@
 </div>
 
 <script>
-  function getDriveEmbedUrl(videoId, mute = false) {
-    return `https://www.youtube.com/embed/${videoId}?autoplay=1&${mute ? 'mute=1' : ''}`;
+  function getDrivePreviewUrl(id, mute = false) {
+    return `https://drive.google.com/file/d/${id}/preview${mute ? '?mute=1' : ''}`;
   }
 
   document.querySelectorAll('.step').forEach(step => {
     const videoId = step.dataset.videoId;
-    const preview = step.querySelector('.video-preview');
-    const iframe = preview.querySelector('iframe');
-    const img = preview.querySelector('img');
+    const preview = step.querySelector('.video-preview iframe');
 
-    // Hover to preview
-    preview.addEventListener('mouseenter', () => {
-      iframe.src = getDriveEmbedUrl(videoId, true);
-      iframe.style.opacity = '1';
-      iframe.style.pointerEvents = 'auto';
-      img.style.opacity = '0';
-    });
+    if (videoId) {
+      // Hover để xem preview (mute)
+      step.addEventListener('mouseenter', () => {
+        preview.src = getDrivePreviewUrl(videoId, true);
+      });
 
-    preview.addEventListener('mouseleave', () => {
-      iframe.src = '';
-      iframe.style.opacity = '0';
-      iframe.style.pointerEvents = 'none';
-      img.style.opacity = '1';
-    });
+      step.addEventListener('mouseleave', () => {
+        preview.src = '';
+      });
 
-    // Click to open full video
-    preview.addEventListener('click', () => {
-      const modal = document.getElementById('video-modal');
-      const modalIframe = modal.querySelector('iframe');
-      modalIframe.src = getDriveEmbedUrl(videoId, false);
-      modal.style.display = 'flex';
-    });
+      // Click để mở modal
+      step.addEventListener('click', () => {
+        const modal = document.getElementById('video-modal');
+        const modalIframe = modal.querySelector('iframe');
+        modalIframe.src = getDrivePreviewUrl(videoId, false);
+        modal.style.display = 'flex';
+      });
+    }
   });
 
-  // Close modal on outside click
+  // Đóng modal
   document.getElementById('video-modal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) {
       const iframe = e.currentTarget.querySelector('iframe');
@@ -204,4 +218,5 @@
 
 </body>
 </html>
+
 
