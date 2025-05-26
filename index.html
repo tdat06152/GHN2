@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindmap Quy trình Công việc</title>
+    <style>
+        /* Basic reset and body styling */
+        body {
+            font-family: 'Inter', Arial, sans-serif; /* Using Inter font as per guidelines */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Align items to the start for vertical flow */
+            min-height: 100vh;
+            background-color: #ffffff; /* Changed background to white as requested */
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #333; /* Default text color */
+        }
+
+        /* Main title styling */
+        h1 {
+            color: #FF5200; /* Updated to #FF5200 as requested */
+            margin-bottom: 40px;
+            font-size: 2.8em; /* Slightly larger title */
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Subtle text shadow */
+        }
+
+        /* Container for the mindmap cards */
+        .mindmap-container {
+            display: flex;
+            flex-direction: column; /* Force vertical layout */
+            flex-wrap: nowrap; /* Prevent wrapping horizontally */
+            justify-content: flex-start; /* Align items to the start for vertical flow */
+            align-items: center; /* Center cards horizontally within the container */
+            gap: 20px; /* Spacing between cards and arrows vertically */
+            max-width: 100%;
+            width: fit-content;
+            padding-bottom: 15px; /* Add some padding for potential scrollbar (if content is very long) */
+        }
+
+        /* Styling for each step card */
+        .step-card {
+            background-color: #ffffff; /* White background for cards */
+            border: 1px solid #dcdcdc; /* Lighter border */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+            padding: 25px;
+            text-align: center;
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            width: 280px; /* Fixed width for each card */
+            min-height: 300px; /* Minimum height to ensure consistency */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        /* Hover effect for step cards */
+        .step-card:hover {
+            transform: translateY(-10px); /* More noticeable lift on hover */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+        }
+
+        /* Heading inside step card */
+        .step-card h2 {
+            color: #F52000; /* Vibrant red/orange as requested */
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em; /* Slightly larger heading */
+            font-weight: 700; /* Bolder font */
+        }
+
+        /* Video preview container styling */
+        .video-preview {
+            position: relative;
+            width: 100%;
+            height: 150px; /* Fixed height for the preview area */
+            background-color: #ecf0f1; /* Lighter background for preview area */
+            border: 2px solid #006FAD; /* Blue border using #006FAD */
+            border-radius: 10px; /* Rounded corners */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden; /* Ensures iframe/image doesn't overflow */
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .video-preview:hover {
+            border-color: #005B9C; /* Darker blue on hover */
+            transform: scale(1.02); /* Slightly grow on hover */
+        }
+
+        /* Image inside video preview (placeholder) */
+        .video-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the area */
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Iframe for video preview */
+        .video-preview iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none; /* Prevents interaction with hidden iframe */
+        }
+
+        /* Hover effect for video preview: show iframe, hide image */
+        .video-preview:hover img {
+            opacity: 0;
+        }
+
+        .video-preview:hover iframe {
+            opacity: 1;
+            pointer-events: auto; /* Allows interaction when visible */
+        }
+
+        /* Link section styling */
+        .link-section {
+            text-align: left;
+            width: 100%;
+        }
+
+        .link-section label {
+            display: block;
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .link-section input[type="url"] {
+            width: calc(100% - 24px); /* Account for padding and border */
+            padding: 10px 12px;
+            border: 1px solid #ccc; /* Lighter border for input */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 1em;
+            box-sizing: border-box; /* Include padding and border in width */
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .link-section input[type="url"]:focus {
+            border-color: #F52000; /* Red/orange border on focus */
+            box-shadow: 0 0 0 3px rgba(245, 32, 0, 0.25); /* Red/orange shadow on focus */
+            outline: none;
+        }
+
+        /* Arrow styling */
+        .arrow {
+            font-size: 3.5em; /* Slightly larger arrow */
+            color: #2c3e50; /* Darker, more prominent arrow color */
+            margin: 15px 0; /* Adjust margin for vertical flow */
+            align-self: center; /* Center horizontally within the column */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Subtle shadow for arrow */
+            flex-shrink: 0; /* Prevent arrow from shrinking */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default, will be set to 'flex' by JS */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top of everything */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.88); /* Darker overlay */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            padding: 20px; /* Padding for small screens */
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 95%; /* Responsive width */
+            max-width: 900px; /* Max width for larger screens */
+            border-radius: 12px; /* Rounded corners */
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Stronger shadow for modal */
+            box-sizing: border-box;
+        }
+
+        .modal-content iframe {
+            display: block; /* Remove extra space below iframe */
+            width: 100%;
+            height: 500px; /* Fixed height for iframe in modal */
+            max-height: 80vh; /* Limit height based on viewport height */
+        }
+
+        /* Close button for modal */
+        .close-button {
+            color: #F52000; /* Red/orange close button */
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 45px; /* Larger close button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #CC2000; /* Darker red/orange on hover */
+            transform: rotate(90deg); /* Rotate on hover */
+            text-decoration: none;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+            .modal-content iframe {
+                height: 300px; /* Adjust modal video height for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .step-card {
+                padding: 15px;
+            }
+
+            .step-card h2 {
+                font-size: 1.3em;
+            }
+
+            .video-preview {
+                height: 120px;
+            }
+
+            .link-section input[type="url"] {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Quy trình Xử lý Hàng Giao</h1>
+
+    <div class="mindmap-container">
+        <div class="step-card" id="step-assign">
+            <h2>1. Gán đơn giao</h2>
+            <div class="video-preview" data-drive-video-id="1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ">
+                <img src="https://placehold.co/200x120/E0E0E0/333333?text=Preview+Gán+Đơn" alt="Video Preview Gán Đơn">
+            </div>
+            <div class="link-section">
+                <label for="link-assign">Link liên quan:</label>
+                <input type="url" id="link-assign" value="https://example.com/gan-don" placeholder="Gắn URL tại đây">
+            </div>
+        </div>
+
+        <div class="arrow">⬇</div> <div class="step-card" id="step-check">
+            <h2>2. Đồng kiểm hàng hóa</h2>
+            <div class="video-preview" data-drive-video-id="1f_g7kYm_Hw0tNn9oXyZ_R2sU_V1oP2a">
+                <img src="https://placehold.co/200x120/E0E0E0/333333?text=Preview+Đồng+Kiểm" alt="Video Preview Đồng Kiểm">
+            </div>
+            <div class="link-section">
+                <label for="link-check">Link liên quan:</label>
+                <input type="url" id="link-check" value="https://example.com/dong-kiem" placeholder="Gắn URL tại đây">
+            </div>
+        </div>
+
+        <div class="arrow">⬇</div>
+
+        <div class="step-card" id="step-scan">
+            <h2>3. Bắn kiểm đơn hàng về Bưu cục</h2>
+            <div class="video-preview" data-drive-video-id="14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-">
+                <img src="https://placehold.co/200x120/E0E0E0/333333?text=Preview+Bắn+Kiểm" alt="Video Preview Bắn Kiểm">
+            </div>
+            <div class="link-section">
+                <label for="link-scan">Link liên quan:</label>
+                <input type="url" id="link-scan" value="https://example.com/ban-kiem" placeholder="Gắn URL tại đây">
+            </div>
+        </div>
+
+        <div class="arrow">⬇</div>
+
+        <div class="step-card" id="step-payment">
+            <h2>4. Thu tiền và tạo phiếu thu</h2>
+            <div class="video-preview" data-drive-video-id="1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_">
+                <img src="https://placehold.co/200x120/E0E0E0/333333?text=Preview+Thu+Tiền" alt="Video Preview Thu Tiền">
+            </div>
+            <div class="link-section">
+                <label for="link-payment">Link liên quan:</label>
+                <input type="url" id="link-payment" value="https://example.com/thu-tien" placeholder="Gắn URL tại đây">
+            </div>
+        </div>
+    </div>
+
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <iframe id="modalVideoFrame" width="560" height="315" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all elements with the class 'video-preview'
+            const videoPreviews = document.querySelectorAll('.video-preview');
+            // Select the modal and its components
+            const videoModal = document.getElementById('videoModal');
+            const modalVideoFrame = document.getElementById('modalVideoFrame');
+            const closeButton = document.querySelector('.close-button');
+
+            /**
+             * Constructs the Google Drive embed URL from a given video ID.
+             * This function is crucial for embedding Google Drive videos correctly.
+             * @param {string} driveId - The ID of the Google Drive video.
+             * @param {boolean} autoplay - Whether the video should autoplay (and be muted for preview).
+             * @returns {string} The constructed embed URL.
+             */
+            function getDriveEmbedUrl(driveId, autoplay = false) {
+                // Correct base embed URL for Google Drive videos
+                let embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+                if (autoplay) {
+                    // For autoplay in preview, we often need to mute for browser policies.
+                    embedUrl += `?autoplay=1&mute=1`;
+                }
+                return embedUrl;
+            }
+
+            // Iterate over each video preview element
+            videoPreviews.forEach(preview => {
+                // Get the Google Drive video ID from the data attribute
+                const driveVideoId = preview.dataset.driveVideoId;
+                let iframeElement = null; // Variable to store the created iframe element
+
+                // Event listener for when the mouse pointer enters the preview area
+                preview.addEventListener('mouseenter', () => {
+                    console.log(`Mouse entered preview for ID: ${driveVideoId}`);
+                    // If the iframe hasn't been created yet
+                    if (!iframeElement) {
+                        iframeElement = document.createElement('iframe');
+                        // Set the src using the Google Drive embed URL with autoplay and mute
+                        iframeElement.setAttribute('src', getDriveEmbedUrl(driveVideoId, true));
+                        iframeElement.setAttribute('frameborder', '0');
+                        // Allow autoplay and fullscreen
+                        iframeElement.setAttribute('allow', 'autoplay; fullscreen');
+                        iframeElement.setAttribute('allowfullscreen', '');
+                        // Append the iframe to the preview container
+                        preview.appendChild(iframeElement);
+
+                        // A small delay to ensure CSS transitions apply smoothly
+                        setTimeout(() => {
+                            iframeElement.style.opacity = '1';
+                            iframeElement.style.pointerEvents = 'auto'; // Enable interaction with iframe
+                        }, 10);
+                    } else {
+                        // If iframe already exists, just update its source to ensure autoplay starts
+                        iframeElement.src = getDriveEmbedUrl(driveVideoId, true);
+                        iframeElement.style.opacity = '1';
+                        iframeElement.style.pointerEvents = 'auto';
+                    }
+                    // Hide the placeholder image when iframe is visible
+                    preview.querySelector('img').style.opacity = '0';
+                });
+
+                // Event listener for when the mouse pointer leaves the preview area
+                preview.addEventListener('mouseleave', () => {
+                    console.log(`Mouse left preview for ID: ${driveVideoId}`);
+                    if (iframeElement) {
+                        iframeElement.style.opacity = '0';
+                        iframeElement.style.pointerEvents = 'none'; // Disable interaction with hidden iframe
+                        // Stop the video by resetting the iframe's src
+                        iframeElement.src = ""; // This stops the video
+                    }
+                    // Show the placeholder image again
+                    preview.querySelector('img').style.opacity = '1';
+                });
+
+                // Event listener for when the preview area is clicked (to open the modal)
+                preview.addEventListener('click', () => {
+                    console.log('Video preview clicked! Opening modal.'); // Log to confirm click
+                    // Set the modal iframe's src to the Drive video URL (no mute for modal, allow sound)
+                    modalVideoFrame.src = getDriveEmbedUrl(driveVideoId, false); // No mute for modal, allow sound
+                    videoModal.style.display = 'flex'; // Display the modal using flex to center it
+                });
+            });
+
+            // Event listener for the modal close button
+            closeButton.addEventListener('click', () => {
+                console.log('Close button clicked! Closing modal.'); // Log to confirm close
+                videoModal.style.display = 'none'; // Hide the modal
+                modalVideoFrame.src = ""; // Stop the video when modal is closed
+            });
+
+            // Event listener for clicking outside the modal content to close it
+            window.addEventListener('click', (event) => {
+                if (event.target == videoModal) {
+                    console.log('Clicked outside modal! Closing modal.'); // Log to confirm outside click
+                    videoModal.style.display = 'none'; // Hide the modal
+                    modalVideoFrame.src = ""; // Stop the video when modal is closed
+                }
+            });
+        });
+    </script>
+</body>
+</html>
