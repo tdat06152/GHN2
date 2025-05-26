@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Mind map Quy trình hàng giao</title>
+  <title>Quy trình hàng giao</title>
   <style>
     body {
       font-family: sans-serif;
@@ -59,23 +59,16 @@
     .link-section {
       margin-top: 10px;
     }
-    .link-section label {
+    .link-section a {
       font-size: 13px;
       font-weight: bold;
+      color: #007BFF;
+      text-decoration: none;
       display: block;
-      margin-bottom: 5px;
+      margin-top: 5px;
     }
-    .link-section input {
-      width: 100%;
-      padding: 6px 8px;
-      font-size: 13px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: #f1f1f1;
-      color: #555;
-    }
-    input[readonly] {
-      cursor: not-allowed;
+    .link-section a:hover {
+      text-decoration: underline;
     }
 
     .arrow {
@@ -114,7 +107,7 @@
 </head>
 <body>
 
-<h2>Mind map Quy trình hàng giao</h2>
+<h2>Quy trình hàng giao</h2>
 
 <div class="mindmap">
   <!-- Bước 1: Gán đơn giao -->
@@ -124,8 +117,7 @@
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
-      <label>URL: nhanh.ghn.vn</label>
-      <input type="url" value="https://nhanh.ghn.vn" readonly>
+      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
     </div>
   </div>
 
@@ -138,8 +130,7 @@
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
-      <label>URL: nhanh.ghn.vn</label>
-      <input type="url" value="https://nhanh.ghn.vn" readonly>
+      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
     </div>
   </div>
 
@@ -152,8 +143,7 @@
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
-      <label>URL: nhanh.ghn.vn</label>
-      <input type="url" value="https://nhanh.ghn.vn" readonly>
+      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
     </div>
   </div>
 
@@ -166,8 +156,7 @@
       <iframe allow="autoplay; muted"></iframe>
     </div>
     <div class="link-section">
-      <label>URL: nhanh.ghn.vn</label>
-      <input type="url" value="https://nhanh.ghn.vn" readonly>
+      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
     </div>
   </div>
 </div>
@@ -179,7 +168,7 @@
 
 <script>
   function getDrivePreviewUrl(id, mute = false) {
-    return `https://drive.google.com/file/d/${id}/preview${mute ? '?mute=1' : ''}`;
+    return `https://drive.google.com/file/d/${id}/preview${mute ? '?autoplay=1&mute=1' : '?autoplay=1'}`;
   }
 
   document.querySelectorAll('.step').forEach(step => {
@@ -187,16 +176,15 @@
     const preview = step.querySelector('.video-preview iframe');
 
     if (videoId) {
-      // Hover để xem preview (mute)
+      // Hover: tự động play video (mute)
       step.addEventListener('mouseenter', () => {
         preview.src = getDrivePreviewUrl(videoId, true);
       });
-
       step.addEventListener('mouseleave', () => {
         preview.src = '';
       });
 
-      // Click để mở modal
+      // Click: mở modal toàn màn hình
       step.addEventListener('click', () => {
         const modal = document.getElementById('video-modal');
         const modalIframe = modal.querySelector('iframe');
@@ -206,7 +194,7 @@
     }
   });
 
-  // Đóng modal
+  // Đóng modal khi click ra ngoài
   document.getElementById('video-modal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) {
       const iframe = e.currentTarget.querySelector('iframe');
@@ -218,5 +206,3 @@
 
 </body>
 </html>
-
-
