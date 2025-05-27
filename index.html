@@ -1,208 +1,360 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Quy trình hàng giao</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 40px;
-      background: #f5f5f5;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .mindmap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: nowrap;
-      gap: 30px;
-      position: relative;
-    }
-    .step {
-      width: 260px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 16px;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .step:hover {
-      transform: translateY(-5px);
-    }
-    .step h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #333;
-      text-align: center;
-    }
-    .video-preview {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #000;
-    }
-    .video-preview iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      pointer-events: none;
-    }
-    .link-section {
-      margin-top: 10px;
-    }
-    .link-section a {
-      font-size: 13px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-      display: block;
-      margin-top: 5px;
-    }
-    .link-section a:hover {
-      text-decoration: underline;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindmap Quy trình Xử lý Hàng Giao</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Căn giữa toàn bộ mindmap */
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
 
-    .arrow {
-      width: 30px;
-      height: 2px;
-      background: #333;
-      position: relative;
-    }
-    .arrow::after {
-      content: '';
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-left: 10px solid #333;
-    }
+        .mindmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px; /* Giảm gap vì arrow sẽ có margin */
+        }
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal iframe {
-      width: 80%;
-      height: 80%;
-      border: none;
-    }
-  </style>
+        .mindmap-node {
+            background-color: white;
+            border: 2px solid #006FAD;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px; /* Giữ margin cho từng node */
+            text-align: center;
+            min-width: 250px; /* Chiều rộng tối thiểu cho các node phụ */
+            max-width: 300px; /* Giới hạn chiều rộng tối đa cho các node phụ */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mindmap-node:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .main-node {
+            background-color: #006FAD;
+            color: white;
+            border-color: #FF5200;
+            padding: 25px;
+            margin-bottom: 0; /* Node chính sẽ nối trực tiếp với line */
+            min-width: 320px; /* Tăng chiều rộng tối thiểu cho node chính để tiêu đề không xuống hàng */
+            max-width: none; /* Cho phép node chính rộng hơn nếu cần */
+        }
+
+        .main-node .node-title {
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .sub-node {
+            cursor: pointer;
+        }
+
+        .node-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .node-title {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .main-node .node-title {
+            color: white;
+        }
+
+        .node-link, .node-link-main {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #FF5200;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .node-link:hover, .node-link-main:hover {
+            background-color: #e64a00;
+            transform: scale(1.05);
+        }
+
+        .main-node-connector-line {
+            width: 2px;
+            height: 25px; /* Chiều cao của đường nối từ node chính */
+            background-color: #006FAD;
+        }
+
+        .mindmap-branches-container {
+            display: flex;
+            flex-direction: column; /* Sắp xếp các nhánh theo chiều dọc */
+            align-items: center; /* Căn giữa các nhánh */
+            gap: 0px;
+            position: relative;
+        }
+
+        .mindmap-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .mindmap-branch:not(:last-child)::after {
+            content: '▼';
+            font-size: 24px;
+            color: #006FAD;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .video-preview-container {
+            width: 100%;
+            max-width: 200px;
+            height: 110px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            background-color: #e9ecef; /* Nền cho preview, sẽ thấy nếu iframe không tải được */
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            pointer-events: none; /* Để sự kiện hover vẫn được bắt bởi .sub-node */
+            border-radius: 6px;
+        }
+
+        .sub-node:hover .video-preview-container {
+            display: block;
+        }
+
+        .video-preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform: scale(1.05); /* Phóng to nhẹ để che viền iframe nếu có */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 20px;
+            border: none;
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            min-height: 450px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .close-button {
+            color: #555;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            padding: 5px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #FF5200;
+            text-decoration: none;
+        }
+
+        #modalVideoIframe {
+            border-radius: 6px;
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
+    <div class="mindmap-container">
+        <div class="mindmap-node main-node" id="node-giao">
+            <div class="node-content">
+                <span class="node-title">Quy trình Xử lý hàng giao</span>
+                <a href="http://nhanh.ghn.vn" target="_blank" class="node-link-main">nhanh.ghn.vn</a>
+            </div>
+        </div>
 
-<h2>Quy trình hàng giao</h2>
+        <div class="main-node-connector-line"></div>
 
-<div class="mindmap">
-  <!-- Bước 1: Gán đơn giao -->
-  <div class="step" data-video-id="1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ">
-    <h3>Bước 1: Gán đơn giao</h3>
-    <div class="video-preview">
-      <iframe allow="autoplay; muted"></iframe>
+        <div class="mindmap-branches-container">
+            <div class="mindmap-branch">
+                <div class="mindmap-node sub-node"
+                     data-video-url="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview">
+                    <div class="node-content">
+                        <span class="node-title">1. Gán đơn giao</span>
+                        <div class="video-preview-container">
+                            <iframe class="video-preview-iframe"
+                                    src="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview"
+                                    allow="autoplay; encrypted-media"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </div>
+                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindmap-branch">
+                <div class="mindmap-node sub-node"
+                     data-video-url="YOUR_VIDEO_ID_2_PREVIEW_LINK"> <div class="node-content">
+                        <span class="node-title">2. Đồng kiểm hàng hoá</span>
+                         <div class="video-preview-container">
+                            <iframe class="video-preview-iframe"
+                                    src="YOUR_VIDEO_ID_2_PREVIEW_LINK" allow="autoplay; encrypted-media"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </div>
+                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindmap-branch">
+                <div class="mindmap-node sub-node"
+                     data-video-url="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview">
+                    <div class="node-content">
+                        <span class="node-title">3. Bắn kiểm đơn hàng về Bưu cục</span>
+                         <div class="video-preview-container">
+                            <iframe class="video-preview-iframe"
+                                    src="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview"
+                                    allow="autoplay; encrypted-media"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </div>
+                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindmap-branch">
+                <div class="mindmap-node sub-node"
+                     data-video-url="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview">
+                    <div class="node-content">
+                        <span class="node-title">4. Thu tiền và tạo phiếu thu</span>
+                         <div class="video-preview-container">
+                            <iframe class="video-preview-iframe"
+                                    src="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview"
+                                    allow="autoplay; encrypted-media"
+                                    loading="lazy"
+                                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        </div>
+                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="link-section">
-      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
+
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <iframe id="modalVideoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
     </div>
-  </div>
 
-  <div class="arrow"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const subNodes = document.querySelectorAll('.sub-node');
+            const modal = document.getElementById('videoModal');
+            const modalVideoIframe = document.getElementById('modalVideoIframe');
+            const closeButton = document.getElementById('closeModalButton');
 
-  <!-- Bước 2: Đồng kiểm hàng hóa -->
-  <div class="step" data-video-id="">
-    <h3>Bước 2: Đồng kiểm hàng hóa</h3>
-    <div class="video-preview">
-      <iframe allow="autoplay; muted"></iframe>
-    </div>
-    <div class="link-section">
-      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
-    </div>
-  </div>
+            subNodes.forEach(node => {
+                node.addEventListener('click', function (event) {
+                    if (event.target.tagName === 'A' && event.target.classList.contains('node-link')) {
+                        return; // Cho phép link điều hướng bình thường
+                    }
+                    event.preventDefault(); // Ngăn các hành vi khác
 
-  <div class="arrow"></div>
+                    const videoUrl = this.dataset.videoUrl;
+                    if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { // Kiểm tra link hợp lệ
+                        let finalVideoUrl = videoUrl;
+                        // Google Drive preview URL thường không hỗ trợ autoplay=1 một cách đáng tin cậy trong iframe.
+                        // Người dùng thường sẽ phải nhấn play trong modal.
+                        modalVideoIframe.src = finalVideoUrl;
+                        modal.style.display = 'flex'; // Hiển thị modal
+                    } else if (videoUrl.startsWith("YOUR_VIDEO_ID_")) {
+                        console.warn("Mindmap: Link video placeholder chưa được thay thế cho node: ", this.querySelector('.node-title').textContent.trim());
+                        // Tùy chọn: Thông báo cho người dùng rằng video không có sẵn
+                        // alert("Video cho mục này hiện không có sẵn hoặc link chưa được cập nhật.");
+                    }
+                });
+            });
 
-  <!-- Bước 3: Bắn kiểm đơn hàng về Bưu cục -->
-  <div class="step" data-video-id="14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-">
-    <h3>Bước 3: Bắn kiểm đơn hàng về Bưu cục</h3>
-    <div class="video-preview">
-      <iframe allow="autoplay; muted"></iframe>
-    </div>
-    <div class="link-section">
-      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
-    </div>
-  </div>
+            function closeModal() {
+                modal.style.display = 'none';
+                modalVideoIframe.src = ''; // Dừng video và xóa src để tránh phát ngầm
+            }
 
-  <div class="arrow"></div>
+            closeButton.addEventListener('click', closeModal);
 
-  <!-- Bước 4: Thu tiền và tạo phiếu thu -->
-  <div class="step" data-video-id="1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_">
-    <h3>Bước 4: Thu tiền và tạo phiếu thu</h3>
-    <div class="video-preview">
-      <iframe allow="autoplay; muted"></iframe>
-    </div>
-    <div class="link-section">
-      <a href="https://nhanh.ghn.vn" target="_blank">Truy cập nhanh.ghn.vn</a>
-    </div>
-  </div>
-</div>
+            // Đóng modal khi nhấp ra ngoài modal content
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
 
-<!-- Modal -->
-<div class="modal" id="video-modal">
-  <iframe src="" allow="autoplay" allowfullscreen></iframe>
-</div>
-
-<script>
-  function getDrivePreviewUrl(id, mute = false) {
-    return `https://drive.google.com/file/d/${id}/preview${mute ? '?autoplay=1&mute=1' : '?autoplay=1'}`;
-  }
-
-  document.querySelectorAll('.step').forEach(step => {
-    const videoId = step.dataset.videoId;
-    const preview = step.querySelector('.video-preview iframe');
-
-    if (videoId) {
-      // Hover: tự động play video (mute)
-      step.addEventListener('mouseenter', () => {
-        preview.src = getDrivePreviewUrl(videoId, true);
-      });
-      step.addEventListener('mouseleave', () => {
-        preview.src = '';
-      });
-
-      // Click: mở modal toàn màn hình
-      step.addEventListener('click', () => {
-        const modal = document.getElementById('video-modal');
-        const modalIframe = modal.querySelector('iframe');
-        modalIframe.src = getDrivePreviewUrl(videoId, false);
-        modal.style.display = 'flex';
-      });
-    }
-  });
-
-  // Đóng modal khi click ra ngoài
-  document.getElementById('video-modal').addEventListener('click', (e) => {
-    if (e.target === e.currentTarget) {
-      const iframe = e.currentTarget.querySelector('iframe');
-      iframe.src = '';
-      e.currentTarget.style.display = 'none';
-    }
-  });
-</script>
-
+            // Xử lý nhấn phím Esc để đóng modal
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" && modal.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
