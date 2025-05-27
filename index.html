@@ -16,6 +16,19 @@
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
+            position: relative; /* Cần cho việc định vị logo tuyệt đối với body */
+        }
+
+        .logo-container {
+            position: fixed; /* Hoặc absolute nếu muốn nó cuộn cùng trang */
+            top: 20px;
+            right: 20px;
+            z-index: 1001; /* Đảm bảo logo nổi lên trên */
+        }
+
+        .logo-container img {
+            height: 60px; /* Điều chỉnh kích thước logo nếu cần */
+            width: auto;
         }
 
         .mindmap-container {
@@ -23,11 +36,12 @@
             flex-direction: column;
             align-items: center;
             gap: 0px; /* Giảm gap vì arrow sẽ có margin */
+            margin-top: 50px; /* Thêm khoảng trống phía trên cho logo */
         }
 
         .mindmap-node {
             background-color: white;
-            border: 2px solid #006FAD;
+            border: 2px solid #006FAD; /* Viền xanh mặc định */
             border-radius: 12px;
             padding: 20px;
             margin: 10px; /* Giữ margin cho từng node */
@@ -47,7 +61,7 @@
         .main-node {
             background-color: #006FAD;
             color: white;
-            border-color: #FF5200;
+            /* border-color: #FF5200; */ /* Đã bỏ viền cam, sẽ dùng viền xanh từ .mindmap-node */
             padding: 25px;
             margin-bottom: 0; /* Node chính sẽ nối trực tiếp với line */
             min-width: 320px; /* Tăng chiều rộng tối thiểu cho node chính để tiêu đề không xuống hàng */
@@ -81,9 +95,21 @@
             color: white;
         }
 
+        .system-access-text {
+            display: block;
+            font-size: 0.9em;
+            color: #444; /* Màu chữ cho dòng text mới */
+            margin-top: 12px;
+            margin-bottom: -5px; /* Giảm khoảng cách với link bên dưới */
+        }
+        
+        .main-node .system-access-text { /* Màu chữ cho dòng text mới trong main-node */
+            color: #e0e0e0;
+        }
+
         .node-link, .node-link-main {
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 8px; /* Điều chỉnh margin-top của link */
             padding: 8px 15px;
             background-color: #FF5200;
             color: white !important;
@@ -163,7 +189,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 1000; /* Modal có z-index thấp hơn logo-container nếu logo-container có z-index 1001 */
             left: 0;
             top: 0;
             width: 100%;
@@ -219,10 +245,15 @@
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="Logo_GHN-removebg-preview (1).png" alt="GHN Logo">
+    </div>
+
     <div class="mindmap-container">
         <div class="mindmap-node main-node" id="node-giao">
             <div class="node-content">
                 <span class="node-title">Quy trình Xử lý hàng giao</span>
+                <span class="system-access-text">Truy cập vào hệ thống:</span>
                 <a href="http://nhanh.ghn.vn" target="_blank" class="node-link-main">nhanh.ghn.vn</a>
             </div>
         </div>
@@ -242,6 +273,7 @@
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
+                        <span class="system-access-text">Truy cập vào hệ thống:</span>
                         <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
                     </div>
                 </div>
@@ -249,14 +281,17 @@
 
             <div class="mindmap-branch">
                 <div class="mindmap-node sub-node"
-                     data-video-url="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview"> <div class="node-content">
+                     data-video-url="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview">
+                    <div class="node-content">
                         <span class="node-title">2. Đồng kiểm hàng hoá</span>
                          <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
-                                    src="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview" allow="autoplay; encrypted-media"
+                                    src="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview"
+                                    allow="autoplay; encrypted-media"
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
+                        <span class="system-access-text">Truy cập vào hệ thống:</span>
                         <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
                     </div>
                 </div>
@@ -274,6 +309,7 @@
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
+                        <span class="system-access-text">Truy cập vào hệ thống:</span>
                         <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
                     </div>
                 </div>
@@ -291,6 +327,7 @@
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
+                        <span class="system-access-text">Truy cập vào hệ thống:</span>
                         <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
                     </div>
                 </div>
@@ -322,14 +359,10 @@
                     const videoUrl = this.dataset.videoUrl;
                     if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { // Kiểm tra link hợp lệ
                         let finalVideoUrl = videoUrl;
-                        // Google Drive preview URL thường không hỗ trợ autoplay=1 một cách đáng tin cậy trong iframe.
-                        // Người dùng thường sẽ phải nhấn play trong modal.
                         modalVideoIframe.src = finalVideoUrl;
                         modal.style.display = 'flex'; // Hiển thị modal
                     } else if (videoUrl.startsWith("YOUR_VIDEO_ID_")) {
                         console.warn("Mindmap: Link video placeholder chưa được thay thế cho node: ", this.querySelector('.node-title').textContent.trim());
-                        // Tùy chọn: Thông báo cho người dùng rằng video không có sẵn
-                        // alert("Video cho mục này hiện không có sẵn hoặc link chưa được cập nhật.");
                     }
                 });
             });
@@ -341,14 +374,12 @@
 
             closeButton.addEventListener('click', closeModal);
 
-            // Đóng modal khi nhấp ra ngoài modal content
             window.addEventListener('click', function (event) {
                 if (event.target === modal) {
                     closeModal();
                 }
             });
 
-            // Xử lý nhấn phím Esc để đóng modal
             document.addEventListener('keydown', function(event) {
                 if (event.key === "Escape" && modal.style.display === 'flex') {
                     closeModal();
