@@ -16,27 +16,17 @@
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
-            position: relative; /* Cần cho việc định vị logo tuyệt đối với body */
+            /* position: relative; Bỏ vì không còn logo định vị tuyệt đối */
         }
 
-        .logo-container {
-            position: fixed; /* Hoặc absolute nếu muốn nó cuộn cùng trang */
-            top: 20px;
-            right: 20px;
-            z-index: 1001; /* Đảm bảo logo nổi lên trên */
-        }
-
-        .logo-container img {
-            height: 60px; /* Điều chỉnh kích thước logo nếu cần */
-            width: auto;
-        }
+        /* Đã loại bỏ CSS cho .logo-container và .logo-container img */
 
         .mindmap-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0px; /* Giảm gap vì arrow sẽ có margin */
-            margin-top: 50px; /* Thêm khoảng trống phía trên cho logo */
+            /* margin-top: 50px; Bỏ margin-top dành cho logo */
         }
 
         .mindmap-node {
@@ -61,7 +51,6 @@
         .main-node {
             background-color: #006FAD;
             color: white;
-            /* border-color: #FF5200; */ /* Đã bỏ viền cam, sẽ dùng viền xanh từ .mindmap-node */
             padding: 25px;
             margin-bottom: 0; /* Node chính sẽ nối trực tiếp với line */
             min-width: 320px; /* Tăng chiều rộng tối thiểu cho node chính để tiêu đề không xuống hàng */
@@ -81,7 +70,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px; /* Điều chỉnh gap nếu cần sau khi thêm text mới */
         }
 
         .node-title {
@@ -94,22 +83,31 @@
         .main-node .node-title {
             color: white;
         }
+        
+        .video-guide-text {
+            display: block;
+            font-size: 0.85em;
+            color: #005a8c; /* Màu xanh dương đậm hơn một chút */
+            margin-top: 4px; /* Khoảng cách với tiêu đề */
+            margin-bottom: 4px; /* Khoảng cách với phần tử tiếp theo */
+            font-style: italic;
+        }
 
         .system-access-text {
             display: block;
             font-size: 0.9em;
-            color: #444; /* Màu chữ cho dòng text mới */
-            margin-top: 12px;
-            margin-bottom: -5px; /* Giảm khoảng cách với link bên dưới */
+            color: #444; 
+            margin-top: 8px; /* Điều chỉnh lại nếu cần */
+            margin-bottom: -5px; 
         }
         
-        .main-node .system-access-text { /* Màu chữ cho dòng text mới trong main-node */
+        .main-node .system-access-text { 
             color: #e0e0e0;
         }
 
         .node-link, .node-link-main {
             display: inline-block;
-            margin-top: 8px; /* Điều chỉnh margin-top của link */
+            margin-top: 8px; 
             padding: 8px 15px;
             background-color: #FF5200;
             color: white !important;
@@ -126,14 +124,14 @@
 
         .main-node-connector-line {
             width: 2px;
-            height: 25px; /* Chiều cao của đường nối từ node chính */
+            height: 25px; 
             background-color: #006FAD;
         }
 
         .mindmap-branches-container {
             display: flex;
-            flex-direction: column; /* Sắp xếp các nhánh theo chiều dọc */
-            align-items: center; /* Căn giữa các nhánh */
+            flex-direction: column; 
+            align-items: center; 
             gap: 0px;
             position: relative;
         }
@@ -162,8 +160,8 @@
             height: 110px;
             overflow: hidden;
             border: 1px solid #ddd;
-            margin-top: 10px;
-            background-color: #e9ecef; /* Nền cho preview, sẽ thấy nếu iframe không tải được */
+            /* margin-top: 10px; */ /* Sẽ được điều chỉnh bởi gap của node-content */
+            background-color: #e9ecef; 
             display: none;
             position: absolute;
             bottom: calc(100% + 10px);
@@ -171,7 +169,7 @@
             transform: translateX(-50%);
             z-index: 10;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-            pointer-events: none; /* Để sự kiện hover vẫn được bắt bởi .sub-node */
+            pointer-events: none; 
             border-radius: 6px;
         }
 
@@ -183,13 +181,13 @@
             width: 100%;
             height: 100%;
             border: none;
-            transform: scale(1.05); /* Phóng to nhẹ để che viền iframe nếu có */
+            transform: scale(1.05); 
         }
 
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000; /* Modal có z-index thấp hơn logo-container nếu logo-container có z-index 1001 */
+            z-index: 1000; 
             left: 0;
             top: 0;
             width: 100%;
@@ -245,10 +243,6 @@
     </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="Logo_GHN-removebg-preview (1).png" alt="GHN Logo">
-    </div>
-
     <div class="mindmap-container">
         <div class="mindmap-node main-node" id="node-giao">
             <div class="node-content">
@@ -266,6 +260,7 @@
                      data-video-url="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview">
                     <div class="node-content">
                         <span class="node-title">1. Gán đơn giao</span>
+                        <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
                         <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
                                     src="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview"
@@ -284,7 +279,8 @@
                      data-video-url="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview">
                     <div class="node-content">
                         <span class="node-title">2. Đồng kiểm hàng hoá</span>
-                         <div class="video-preview-container">
+                        <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
+                        <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
                                     src="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview"
                                     allow="autoplay; encrypted-media"
@@ -302,7 +298,8 @@
                      data-video-url="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview">
                     <div class="node-content">
                         <span class="node-title">3. Bắn kiểm đơn hàng về Bưu cục</span>
-                         <div class="video-preview-container">
+                        <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
+                        <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
                                     src="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview"
                                     allow="autoplay; encrypted-media"
@@ -320,7 +317,8 @@
                      data-video-url="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview">
                     <div class="node-content">
                         <span class="node-title">4. Thu tiền và tạo phiếu thu</span>
-                         <div class="video-preview-container">
+                        <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
+                        <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
                                     src="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview"
                                     allow="autoplay; encrypted-media"
@@ -352,15 +350,15 @@
             subNodes.forEach(node => {
                 node.addEventListener('click', function (event) {
                     if (event.target.tagName === 'A' && event.target.classList.contains('node-link')) {
-                        return; // Cho phép link điều hướng bình thường
+                        return; 
                     }
-                    event.preventDefault(); // Ngăn các hành vi khác
+                    event.preventDefault(); 
 
                     const videoUrl = this.dataset.videoUrl;
-                    if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { // Kiểm tra link hợp lệ
+                    if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { 
                         let finalVideoUrl = videoUrl;
                         modalVideoIframe.src = finalVideoUrl;
-                        modal.style.display = 'flex'; // Hiển thị modal
+                        modal.style.display = 'flex'; 
                     } else if (videoUrl.startsWith("YOUR_VIDEO_ID_")) {
                         console.warn("Mindmap: Link video placeholder chưa được thay thế cho node: ", this.querySelector('.node-title').textContent.trim());
                     }
@@ -369,7 +367,7 @@
 
             function closeModal() {
                 modal.style.display = 'none';
-                modalVideoIframe.src = ''; // Dừng video và xóa src để tránh phát ngầm
+                modalVideoIframe.src = ''; 
             }
 
             closeButton.addEventListener('click', closeModal);
