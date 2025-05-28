@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mindmap Quy trình Xử lý Hàng Giao</title>
+    <title>Mindmap Quy trình Luân chuyển hàng hoá</title> 
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,17 +16,13 @@
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
-            /* position: relative; Bỏ vì không còn logo định vị tuyệt đối */
         }
-
-        /* Đã loại bỏ CSS cho .logo-container và .logo-container img */
 
         .mindmap-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0px; /* Giảm gap vì arrow sẽ có margin */
-            /* margin-top: 50px; Bỏ margin-top dành cho logo */
         }
 
         .mindmap-node {
@@ -36,8 +32,8 @@
             padding: 20px;
             margin: 10px; /* Giữ margin cho từng node */
             text-align: center;
-            min-width: 250px; /* Chiều rộng tối thiểu cho các node phụ */
-            max-width: 300px; /* Giới hạn chiều rộng tối đa cho các node phụ */
+            min-width: 320px; /* Điều chỉnh chiều rộng tối thiểu cho các node phụ để vừa nội dung */
+            max-width: 380px; /* Giới hạn chiều rộng tối đa cho các node phụ */
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -53,8 +49,8 @@
             color: white;
             padding: 25px;
             margin-bottom: 0; /* Node chính sẽ nối trực tiếp với line */
-            min-width: 320px; /* Tăng chiều rộng tối thiểu cho node chính để tiêu đề không xuống hàng */
-            max-width: none; /* Cho phép node chính rộng hơn nếu cần */
+            min-width: 400px; /* Tăng chiều rộng tối thiểu để tiêu đề chính không xuống dòng */
+            max-width: none; 
         }
 
         .main-node .node-title {
@@ -70,7 +66,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px; /* Điều chỉnh gap nếu cần sau khi thêm text mới */
+            gap: 8px; 
         }
 
         .node-title {
@@ -87,9 +83,9 @@
         .video-guide-text {
             display: block;
             font-size: 0.85em;
-            color: #005a8c; /* Màu xanh dương đậm hơn một chút */
-            margin-top: 4px; /* Khoảng cách với tiêu đề */
-            margin-bottom: 4px; /* Khoảng cách với phần tử tiếp theo */
+            color: #005a8c; 
+            margin-top: 4px; 
+            margin-bottom: 4px; 
             font-style: italic;
         }
 
@@ -97,7 +93,7 @@
             display: block;
             font-size: 0.9em;
             color: #444; 
-            margin-top: 8px; /* Điều chỉnh lại nếu cần */
+            margin-top: 8px; 
             margin-bottom: -5px; 
         }
         
@@ -160,7 +156,6 @@
             height: 110px;
             overflow: hidden;
             border: 1px solid #ddd;
-            /* margin-top: 10px; */ /* Sẽ được điều chỉnh bởi gap của node-content */
             background-color: #e9ecef; 
             display: none;
             position: absolute;
@@ -244,9 +239,9 @@
 </head>
 <body>
     <div class="mindmap-container">
-        <div class="mindmap-node main-node" id="node-giao">
+        <div class="mindmap-node main-node" id="node-luan-chuyen"> 
             <div class="node-content">
-                <span class="node-title">Quy trình Xử lý hàng giao</span>
+                <span class="node-title">Quy trình Luân chuyển hàng hoá</span> 
                 <span class="system-access-text">Truy cập vào hệ thống:</span>
                 <a href="http://nhanh.ghn.vn" target="_blank" class="node-link-main">nhanh.ghn.vn</a>
             </div>
@@ -257,86 +252,68 @@
         <div class="mindmap-branches-container">
             <div class="mindmap-branch">
                 <div class="mindmap-node sub-node"
-                     data-video-url="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview">
+                     data-video-url="https://drive.google.com/file/d/1pideewH2ckl4t2K1cbCcRY355cLr-3TL/preview">
                     <div class="node-content">
-                        <span class="node-title">1. Gán đơn giao</span>
+                        <span class="node-title">1. Bắn luân chuyển</span>
                         <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
                         <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
-                                    src="https://drive.google.com/file/d/1X1mqTALIaPV5kkATxUmO4AV2ihoNgIrQ/preview"
+                                    src="https://drive.google.com/file/d/1pideewH2ckl4t2K1cbCcRY355cLr-3TL/preview"
                                     allow="autoplay; encrypted-media"
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                         <span class="system-access-text">Truy cập vào hệ thống:</span>
-                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                        <a href="http://nhanh.ghn.vn/ktc-van-tai" target="_blank" class="node-link">nhanh.ghn.vn/ktc-van-tai</a>
                     </div>
                 </div>
             </div>
 
             <div class="mindmap-branch">
                 <div class="mindmap-node sub-node"
-                     data-video-url="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview">
+                     data-video-url="https://drive.google.com/file/d/1_ijZN-JUhqJDp1HSDGJM5WNU5Km8HkRi/preview">
                     <div class="node-content">
-                        <span class="node-title">2. Đồng kiểm hàng hoá</span>
+                        <span class="node-title">2. Đóng kiện</span>
                         <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
                         <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
-                                    src="https://drive.google.com/file/d/19olPHKSecWGjJcmxuDr57t_9gLkT_U7p/preview"
+                                    src="https://drive.google.com/file/d/1_ijZN-JUhqJDp1HSDGJM5WNU5Km8HkRi/preview"
                                     allow="autoplay; encrypted-media"
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                         <span class="system-access-text">Truy cập vào hệ thống:</span>
-                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                        <a href="http://nhanh.ghn.vn/ktc-van-tai" target="_blank" class="node-link">nhanh.ghn.vn/ktc-van-tai</a>
                     </div>
                 </div>
             </div>
 
             <div class="mindmap-branch">
                 <div class="mindmap-node sub-node"
-                     data-video-url="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview">
+                     data-video-url="https://drive.google.com/file/d/1biUQBALp6r5XHnTpIdwx1bP_rGuM8uG6/preview">
                     <div class="node-content">
-                        <span class="node-title">3. Bắn kiểm đơn hàng về Bưu cục</span>
+                        <span class="node-title">3. Xuất tải</span>
                         <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
                         <div class="video-preview-container">
                             <iframe class="video-preview-iframe"
-                                    src="https://drive.google.com/file/d/14f0RK7xDU2eCURITYyq5OSqkPh5jqZW-/preview"
+                                    src="https://drive.google.com/file/d/1biUQBALp6r5XHnTpIdwx1bP_rGuM8uG6/preview"
                                     allow="autoplay; encrypted-media"
                                     loading="lazy"
                                     referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                         <span class="system-access-text">Truy cập vào hệ thống:</span>
-                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
+                        <a href="http://nhanh.ghn.vn/ktc-van-tai" target="_blank" class="node-link">nhanh.ghn.vn/ktc-van-tai</a>
                     </div>
                 </div>
             </div>
-
-            <div class="mindmap-branch">
-                <div class="mindmap-node sub-node"
-                     data-video-url="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview">
-                    <div class="node-content">
-                        <span class="node-title">4. Thu tiền và tạo phiếu thu</span>
-                        <span class="video-guide-text">Nhấn vào đây để xem video hướng dẫn</span>
-                        <div class="video-preview-container">
-                            <iframe class="video-preview-iframe"
-                                    src="https://drive.google.com/file/d/1nkghgB_k0H_bVzrzArpnthiRAY3J_8I_/preview"
-                                    allow="autoplay; encrypted-media"
-                                    loading="lazy"
-                                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                        </div>
-                        <span class="system-access-text">Truy cập vào hệ thống:</span>
-                        <a href="http://nhanh.ghn.vn" target="_blank" class="node-link">nhanh.ghn.vn</a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 
     <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-button" id="closeModalButton">&times;</span>
-            <iframe id="modalVideoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe id="modalVideoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -357,6 +334,13 @@
                     const videoUrl = this.dataset.videoUrl;
                     if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { 
                         let finalVideoUrl = videoUrl;
+                        if (finalVideoUrl.includes("drive.google.com") && !finalVideoUrl.includes("autoplay=1")) {
+                            if (finalVideoUrl.includes("?")) {
+                                finalVideoUrl += "&autoplay=1";
+                            } else {
+                                finalVideoUrl += "?autoplay=1";
+                            }
+                        }
                         modalVideoIframe.src = finalVideoUrl;
                         modal.style.display = 'flex'; 
                     } else if (videoUrl.startsWith("YOUR_VIDEO_ID_")) {
