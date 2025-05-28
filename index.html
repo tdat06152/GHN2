@@ -49,7 +49,7 @@
             color: white;
             padding: 25px;
             margin-bottom: 0; /* Node chính sẽ nối trực tiếp với line */
-            min-width: 400px; /* Tăng chiều rộng tối thiểu để tiêu đề chính không xuống dòng */
+            min-width: 400px; 
             max-width: none; 
         }
 
@@ -334,13 +334,14 @@
                     const videoUrl = this.dataset.videoUrl;
                     if (videoUrl && !videoUrl.startsWith("YOUR_VIDEO_ID_")) { 
                         let finalVideoUrl = videoUrl;
-                        if (finalVideoUrl.includes("drive.google.com") && !finalVideoUrl.includes("autoplay=1")) {
-                            if (finalVideoUrl.includes("?")) {
-                                finalVideoUrl += "&autoplay=1";
-                            } else {
-                                finalVideoUrl += "?autoplay=1";
-                            }
-                        }
+                        // Đã loại bỏ phần tự động thêm autoplay=1 cho Google Drive links
+                        // if (finalVideoUrl.includes("drive.google.com") && !finalVideoUrl.includes("autoplay=1")) {
+                        //     if (finalVideoUrl.includes("?")) {
+                        //         finalVideoUrl += "&autoplay=1";
+                        //     } else {
+                        //         finalVideoUrl += "?autoplay=1";
+                        //     }
+                        // }
                         modalVideoIframe.src = finalVideoUrl;
                         modal.style.display = 'flex'; 
                     } else if (videoUrl.startsWith("YOUR_VIDEO_ID_")) {
